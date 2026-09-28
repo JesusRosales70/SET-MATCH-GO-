@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test de Colorimetría — SET-MATCH-GO!</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .test-wrapper {
+      max-width: 800px;
+      margin: 100px auto 40px;
+      padding: 0 20px;
+    }
+
+    .test-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .test-header h1 {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 28px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .test-header p {
+      font-size: 13px;
+      color: #666;
+      letter-spacing: 1px;
+    }
+
+    .question-card {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      padding: 30px;
+      margin-bottom: 25px;
+    }
+
+    .question-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      cursor: pointer;
+      font-size: 12px;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .option-label:hover {
+      border-color: #000;
+      background: #f0f0f0;
+    }
+
+    .option-label input[type="radio"] {
+      accent-color: #000;
+    }
+
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="nav-brand" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+      <img src="{{ url_for('static', filename='Logo.jpg') }}" alt="Logo" style="height: 38px; width: auto; object-fit: contain;">
+      <span>SET-MATCH-GO!</span>
+    </a>
+
+    <ul class="nav-center">
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="#">Colecciones</a></li>
+      <li><a href="#">Teoría del Color</a></li>
+    </ul>
+
+    <ul class="nav-right">
+      <li><a href="#">Buscar ☼</a></li>
+      <li><a href="#">Iniciar Sesión</a></li>
+      <li><a href="{{ url_for('test') }}" class="btn-test">Test Colorimetría</a></li>
+    </ul>
+
+    <button class="menu-toggle" id="menuBtn">☰</button>
+  </nav>
+
+  <!-- TEST CONTENT -->
+  <main class="test-wrapper">
+    <div class="test-header">
+      <h1>Test de Colorimetría</h1>
+      <p>Descubre tu paleta de estación ideal respondiendo estas preguntas clave</p>
+    </div>
+
+    <form action="#" method="POST">
+      <!-- PREGUNTA 1 -->
+      <div class="question-card">
+        <div class="question-title">1. ¿De qué tono se ven las venas de tus muñecas bajo la luz natural?</div>
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="p1" value="frio" required> Verdosas
+          </label>
+          <label class="option-label">
+            <input type="radio" name="p1" value="calido"> Azuladas o violáceas
+          </label>
+          <label class="option-label">
+            <input type="radio" name="p1" value="neutro"> Una mezcla de ambas
+          </label>
+        </div>
+      </div>
+
+      <!-- PREGUNTA 2 -->
+      <div class="question-card">
+        <div class="question-title">2. ¿Qué tipo de accesorios favorecen más tu rostro?</div>
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="p2" value="calido" required> Joyas doradas
+          </label>
+          <label class="option-label">
+            <input type="radio" name="p2" value="frio"> Joyas plateadas
+          </label>
+          <label class="option-label">
+            <input type="radio" name="p2" value="neutro"> Ambas me quedan igual de bien
+          </label>
+        </div>
+      </div>
+
+      <!-- PREGUNTA 3 -->
+      <div class="question-card">
+        <div class="question-title">3. ¿Cómo reacciona tu piel ante la exposición al sol?</div>
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="p3" value="frio" required> Se quema fácilmente con enrojecimiento
+          </label>
+          <label class="option-label">
+            <input type="radio" name="p3" value="calido"> Se broncea rápidamente con tono dorado
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Obtener mi Diagnóstico</button>
+    </form>
+  </main>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+      });
+    }
+  </script>
+</body>
+</html>

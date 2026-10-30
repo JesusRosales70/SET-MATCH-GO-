@@ -1,5 +1,11 @@
 # SET-MATCH-GO! — Asesoría Inteligente & Moda
 
+Integrantes: 
+- Edgar Alonzo Rivas
+- Jorge Adrián Gutiérrez Lopez
+- Enrique Perez Peña
+- Jesus Armando Rosales Martinez
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-black?style=flat-square&logo=flask)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue?style=flat-square&logo=postgresql)

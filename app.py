@@ -27,7 +27,7 @@ def create_app(config_name=None):
     
     login_manager.login_view = "login"
     login_manager.login_message = "Inicia sesión para acceder a esa página."
-    login_message_category = "warning"
+    login_manager.login_message_category = "warning"
 
     from models import User
 
@@ -53,19 +53,16 @@ def create_app(config_name=None):
         db.create_all()
         click.echo("Tablas creadas con éxito.")
 
-    # Forzar la creación automática de tablas en cada arranque
-    with app.app_context():
-        try:
-           db.create_all()
-           app.logger.info("Base de datos e inicialización de tablas verificada con éxito.")
-        except Exception as e:
-           app.logger.error(f"Error al crear automáticamente la base de datos: {e}")
+    if app.config.get("AUTO_CREATE_DB", False):
+        with app.app_context():
+            try:
+                db.create_all()
+            except Exception as e:
+                app.logger.error(f"Error al crear automáticamente la base de datos: {e}")
 
     return app
 
 
-# Instancia accesible para servidores WSGI como Gunicorn
-app = create_app()
-
 if __name__ == "__main__":
+    app = create_app()
     app.run(debug=os.getenv("FLASK_DEBUG", "1") == "1")

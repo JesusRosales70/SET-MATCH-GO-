@@ -55,11 +55,11 @@ def create_app(config_name=None):
 
     # Forzar la creación automática de tablas en cada arranque
     with app.app_context():
-    try:
-        db.create_all()
-        app.logger.info("Base de datos e inicialización de tablas verificada con éxito.")
-    except Exception as e:
-        app.logger.error(f"Error al crear automáticamente la base de datos: {e}")
+        try:
+           db.create_all()
+           app.logger.info("Base de datos e inicialización de tablas verificada con éxito.")
+        except Exception as e:
+           app.logger.error(f"Error al crear automáticamente la base de datos: {e}")
 
     return app
 

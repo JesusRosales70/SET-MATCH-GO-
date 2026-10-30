@@ -27,7 +27,7 @@ def create_app(config_name=None):
     
     login_manager.login_view = "login"
     login_manager.login_message = "Inicia sesión para acceder a esa página."
-    login_manager.login_message_category = "warning"
+    login_message_category = "warning"
 
     from models import User
 
@@ -63,6 +63,8 @@ def create_app(config_name=None):
     return app
 
 
+# Instancia accesible para servidores WSGI como Gunicorn
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=os.getenv("FLASK_DEBUG", "1") == "1")

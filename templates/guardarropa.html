@@ -55,6 +55,10 @@
           <div class="cloth-info">
             <span class="category-tag">{{ prenda.categoria }}</span>
             <h4>{{ prenda.nombre }}</h4>
+            <form action="{{ url_for('eliminar_prenda', id=prenda.id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta prenda?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn-delete">Eliminar</button>
+            </form>
           </div>
         </div>
         {% endfor %}
@@ -128,7 +132,7 @@
     cursor: pointer;
   }
   .btn-submit {
-    background: #e74c3c;
+    background: #c0392b;
     color: #ffffff;
     border: none;
     padding: 12px 24px;
@@ -138,7 +142,7 @@
     transition: background 0.2s;
   }
   .btn-submit:hover {
-    background: #c0392b;
+    background: #a93226;
   }
   .wardrobe-grid {
     display: grid;
@@ -187,6 +191,17 @@
     font-size: 0.95rem;
     color: #1e293b;
   }
+  .btn-delete {
+    margin-top: 10px;
+    background: none;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+  .btn-delete:hover { color: #e74c3c; border-color: #e74c3c; }
   .empty-state {
     grid-column: 1 / -1;
     text-align: center;

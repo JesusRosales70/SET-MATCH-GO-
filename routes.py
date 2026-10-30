@@ -79,7 +79,7 @@ def register_routes(app):
                 errores.append("Ya existe una cuenta con ese correo.")
 
             if not errores:
-                usuario = User(nombre=nombre, email=email, is_confirmed=False)
+                usuario = User(nombre=nombre, email=email, is_confirmed=True)
                 usuario.set_password(password)
                 db.session.add(usuario)
                 try:

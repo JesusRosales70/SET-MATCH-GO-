@@ -1,5 +1,6 @@
 # services/email_service.py
-from flask import current_app, render_template_string, url_for
+import threading
+from flask import current_app, url_for
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 from extensions import mail
@@ -16,6 +17,14 @@ def verificar_token(token, salt, max_age=86400):
     except Exception:
         return None
 
+def _enviar_async(app, msg, user_email):
+    """Función en segundo plano para no congelar la petición en producción."""
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            app.logger.error(f"Fallo al enviar correo a {user_email}: {e}")
+
 def enviar_correo_confirmacion(user_email, user_nombre):
     token = generar_token(user_email, salt="email-confirm-salt")
     url_confirmacion = url_for("confirmar_cuenta", token=token, _external=True)
@@ -31,10 +40,8 @@ def enviar_correo_confirmacion(user_email, user_nombre):
       <p style="color: #888; font-size: 0.8rem; text-align: center;">Si no creaste esta cuenta, puedes ignorar este mensaje.</p>
     </div>
     """
-    try:
-        mail.send(msg)
-    except Exception as e:
-        current_app.logger.error(f"Fallo al enviar correo de confirmación a {user_email}: {e}")
+    app = current_app._get_current_object()
+    threading.Thread(target=_enviar_async, args=(app, msg, user_email)).start()
 
 def enviar_correo_recuperacion(user_email, user_nombre):
     token = generar_token(user_email, salt="password-reset-salt")
@@ -51,7 +58,5 @@ def enviar_correo_recuperacion(user_email, user_nombre):
       <p style="color: #888; font-size: 0.8rem; text-align: center;">Si no solicitaste este cambio, tu cuenta sigue segura.</p>
     </div>
     """
-    try:
-        mail.send(msg)
-    except Exception as e:
-        current_app.logger.error(f"Fallo al enviar correo de recuperación a {user_email}: {e}")
+    app = current_app._get_current_object()
+    threading.Thread(target=_enviar_async, args=(app, msg, user_email)).start()

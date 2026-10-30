@@ -53,7 +53,7 @@ def create_app(config_name=None):
         db.create_all()
         click.echo("Tablas creadas con éxito.")
 
-    if app.config.get("AUTO_CREATE_DB", False):
+    if app.config.get("AUTO_CREATE_DB", True):
         with app.app_context():
             try:
                 db.create_all()

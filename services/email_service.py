@@ -31,7 +31,10 @@ def enviar_correo_confirmacion(user_email, user_nombre):
       <p style="color: #888; font-size: 0.8rem; text-align: center;">Si no creaste esta cuenta, puedes ignorar este mensaje.</p>
     </div>
     """
-    mail.send(msg)
+    try:
+        mail.send(msg)
+    except Exception as e:
+        current_app.logger.error(f"Fallo al enviar correo de confirmación a {user_email}: {e}")
 
 def enviar_correo_recuperacion(user_email, user_nombre):
     token = generar_token(user_email, salt="password-reset-salt")
@@ -48,4 +51,7 @@ def enviar_correo_recuperacion(user_email, user_nombre):
       <p style="color: #888; font-size: 0.8rem; text-align: center;">Si no solicitaste este cambio, tu cuenta sigue segura.</p>
     </div>
     """
-    mail.send(msg)
+    try:
+        mail.send(msg)
+    except Exception as e:
+        current_app.logger.error(f"Fallo al enviar correo de recuperación a {user_email}: {e}")
